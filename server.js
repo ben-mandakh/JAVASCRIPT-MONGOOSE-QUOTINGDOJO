@@ -6,10 +6,14 @@ const app = express();
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/quotesDB', {useNewUrlParser: true});
 const UserSchema = new mongoose.Schema({
- name: {type: String},
- quote: {type: String}
+ name: {type: String, required:[true, "Name must be at least 2 characters"], minlength:2},
+ quote: {type: String, required:[true, "Quote must be at least 2 characters"], minlength:2}
 }, {timestamps:true})
 const User = mongoose.model('User', UserSchema);
+
+////////// VALIDATION ////////////////////////////////
+const flash = require('express-flash');
+app.use(flash());
 
 ///////// EXPRESS CONNECTION PORT ////////////////////
 app.listen(8000, () => console.log("listening on port 8000"));
@@ -20,6 +24,15 @@ app.use(express.urlencoded({extended: true}));
 ///////// EJS CONNECTION          //////////////////// 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+
+///////// SESSION SETUP      /////////////////////////
+const session = require('express-session');
+app.use(session({
+  secret: 'keyboardkitteh',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 }
+}))
 
 //////// INDEX GET ROUTE /////////////////////////////
 app.get('/', (req, res) => {
@@ -33,6 +46,7 @@ app.get('/skip', (req, res) => {
 
 //////// QUOTE GET ROUTE /////////////////////////////
 app.get('/quotes', (req, res) => {
+    consol.log(req.session.name)
     User.find()
         .then(user => res.render("quotes", {users: user}))
         .catch(err => res.json(err));
@@ -44,7 +58,13 @@ app.post('/process', (req, res) => {
     user.name = req.body.name;
     user.quote = req.body.quote;
     user.save()
-        .then(() => res.redirect('/quotes')
-        .catch(err => console.log(err)));
-})
+        .then(() => res.redirect('/quotes'))
+        .catch(err => {
+            console.log( "We have an error!", err);
+            for(var key in err.errors) {
+                req.flash('registration', err.errors[key].message);
+            }
+            res.redirect('/');
+        });
+});
 
