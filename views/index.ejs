@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quoting Dojo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class = "container">
+        <br><br>
+        <div class ="row" style="margin-left:85px; border: 1px solid blue; border-radius:65px">
+        <div class="col">
+            <h1 style="text-align:center; font-weight:bold; color:blue"> Welcome to Quoting Dojo</h1>
+            <br><br>
+            <form  style="margin-left: 105px" action ="/process" method="post" >
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Your name: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control col-6" id="name" name="name" placeholder="name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="quote" class="col-sm-2 col-form-label">Your quote: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control col-6" id="quote" name="quote" placeholder="quote">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                     <input style="margin-left:40%" input type="submit" value ="Add my quotes" class="btn btn-info"> 
+                    </div>
+                    <div class="col">
+                           <a href="/skip"> <input style="margin-left:10%" input type="submit" value ="Skip" class="btn btn-primary"></a>
+                    </div>
+                </div>
+                <br><br>
+            </form>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
